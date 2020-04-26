@@ -2241,11 +2241,10 @@ double IQTree::doTreeSearch() {
 	 *=============================================================================================================*/
 
     bool optimization_looped = false;
-    if (!stop_rule.meetStopCondition(stop_rule.getCurIt(), cur_correlation)) {
+    if (stop_rule.meetStopCondition(stop_rule.getCurIt(), cur_correlation)) {
         cout << "--------------------------------------------------------------------" << endl;
         cout << "|               OPTIMIZING CANDIDATE TREE SET                      |" << endl;
         cout << "--------------------------------------------------------------------" << endl;
-        optimization_looped = true;
     }
 
     // count threshold for computing bootstrap correlation
@@ -2369,6 +2368,7 @@ double IQTree::doTreeSearch() {
 
     }
 
+    optimization_looped = true;
     // 2019-06-03: check convergence here to avoid effect of refineBootTrees
     if (boot_splits.size() >= 2 && MPIHelper::getInstance().isMaster()) {
         // check the stopping criterion for ultra-fast bootstrap
